@@ -9,9 +9,10 @@ return await Parser.Default.ParseArguments<CommandLineOptions>(args)
             {
                 return await Make(opts);
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("Error!");
+                Console.WriteLine(ex.Message);
                 return -3;
             }
         },
@@ -20,6 +21,11 @@ return await Parser.Default.ParseArguments<CommandLineOptions>(args)
 async Task<int> Make(CommandLineOptions opts)
 {
     int result = default;
+
+    if (opts.Provider.ToLowerInvariant() != "cingo")
+    {
+        throw new ArgumentException("Invalid provider! Only cingo is supported now.");
+    }
 
     var client = new RestClient("https://www.cingoportal.com");
     var request = new RestRequest("/becomex/portal/action/Login/view/normal", Method.Post);
