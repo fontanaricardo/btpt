@@ -1,4 +1,5 @@
 using CommandLine;
+using CommandLine.Text;
 
 namespace Btpt.App
 {
@@ -21,5 +22,25 @@ namespace Btpt.App
 
         [Option(shortName: 'o', longName: "longitude", Required = false, HelpText = "The current longitude position.", Default = 0)]
         public double Longitude { get; set; }
+
+        [Usage(ApplicationAlias = "btpt")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                return new List<Example>() {
+                new Example("Tool to punch the clock, only the cingo provider are supported now.",
+                    new CommandLineOptions
+                    {
+                        Provider = "cingo",
+                        UserName = "00000000000",
+                        Password = "password",
+                        TimeZone = 3,
+                        Latitude = -23.703760,
+                        Longitude = -46.700920 
+                    })
+                };
+            }
+        }
     }
 }
